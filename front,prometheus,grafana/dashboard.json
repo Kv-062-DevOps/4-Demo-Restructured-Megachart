@@ -1,0 +1,546 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "$$hashKey": "object:80",
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "iteration": 1587483201386,
+    "links": [],
+    "panels": [
+      {
+        "aliasColors": {},
+        "bars": true,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 4,
+        "interval": "",
+        "legend": {
+          "alignAsTable": false,
+          "avg": true,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": false,
+          "min": false,
+          "rightSide": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": false,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": true,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "rate(request_count_total{application=\"$App_Count\", endpoint=\"$Path_Count\", method=\"$Method_Count\"}[5m])",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Counter for request to {{ application }} using method {{ method }} to path /{{ metrics }}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Panel Title",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "cards": {
+          "cardPadding": null,
+          "cardRound": null
+        },
+        "color": {
+          "cardColor": "#b4ff00",
+          "colorScale": "sqrt",
+          "colorScheme": "interpolateSpectral",
+          "exponent": 0.5,
+          "mode": "spectrum"
+        },
+        "dataFormat": "tsbuckets",
+        "datasource": null,
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "heatmap": {},
+        "hideZeroBuckets": true,
+        "highlightCards": true,
+        "id": 2,
+        "legend": {
+          "show": true
+        },
+        "pluginVersion": "6.7.1",
+        "reverseYBuckets": false,
+        "targets": [
+          {
+            "expr": "rate(request_latency_seconds_bucket{application=\"$App_Latency\",endpoint=\"$Path_Latency\"}[5m])",
+            "format": "heatmap",
+            "instant": false,
+            "interval": "1m",
+            "intervalFactor": 1,
+            "legendFormat": "{{ le }}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Panel Title",
+        "tooltip": {
+          "show": true,
+          "showHistogram": false
+        },
+        "type": "heatmap",
+        "xAxis": {
+          "show": true
+        },
+        "xBucketNumber": null,
+        "xBucketSize": null,
+        "yAxis": {
+          "decimals": null,
+          "format": "s",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true,
+          "splitFactor": null
+        },
+        "yBucketBound": "auto",
+        "yBucketNumber": null,
+        "yBucketSize": null
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 22,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "text": "front",
+            "value": "front"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(request_count_total, application)",
+          "hide": 0,
+          "includeAll": false,
+          "index": -1,
+          "label": null,
+          "multi": false,
+          "name": "App_Count",
+          "options": [
+            {
+              "selected": false,
+              "text": "back",
+              "value": "back"
+            },
+            {
+              "selected": true,
+              "text": "front",
+              "value": "front"
+            }
+          ],
+          "query": "label_values(request_count_total, application)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": true,
+            "tags": [],
+            "text": "/metrics",
+            "value": "/metrics"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(request_count_total, endpoint)",
+          "hide": 0,
+          "includeAll": false,
+          "index": -1,
+          "label": null,
+          "multi": false,
+          "name": "Path_Count",
+          "options": [
+            {
+              "selected": true,
+              "text": "/metrics",
+              "value": "/metrics"
+            },
+            {
+              "selected": false,
+              "text": "/TP/public/index.php",
+              "value": "/TP/public/index.php"
+            },
+            {
+              "selected": false,
+              "text": "/TP/index.php",
+              "value": "/TP/index.php"
+            },
+            {
+              "selected": false,
+              "text": "/thinkphp/html/public/index.php",
+              "value": "/thinkphp/html/public/index.php"
+            },
+            {
+              "selected": false,
+              "text": "/list",
+              "value": "/list"
+            },
+            {
+              "selected": false,
+              "text": "/html/public/index.php",
+              "value": "/html/public/index.php"
+            },
+            {
+              "selected": false,
+              "text": "/users",
+              "value": "/users"
+            },
+            {
+              "selected": false,
+              "text": "/",
+              "value": "/"
+            },
+            {
+              "selected": false,
+              "text": "/static/main.css",
+              "value": "/static/main.css"
+            },
+            {
+              "selected": false,
+              "text": "/favicon.ico",
+              "value": "/favicon.ico"
+            },
+            {
+              "selected": false,
+              "text": "/home",
+              "value": "/home"
+            },
+            {
+              "selected": false,
+              "text": "/employee",
+              "value": "/employee"
+            },
+            {
+              "selected": false,
+              "text": "/add",
+              "value": "/add"
+            }
+          ],
+          "query": "label_values(request_count_total, endpoint)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": true,
+            "text": "GET",
+            "value": "GET"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(request_count_total, method)",
+          "hide": 0,
+          "includeAll": false,
+          "index": -1,
+          "label": null,
+          "multi": false,
+          "name": "Method_Count",
+          "options": [
+            {
+              "selected": true,
+              "text": "GET",
+              "value": "GET"
+            },
+            {
+              "selected": false,
+              "text": "POST",
+              "value": "POST"
+            }
+          ],
+          "query": "label_values(request_count_total, method)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "text": "back",
+            "value": "back"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(request_latency_seconds_bucket, application)",
+          "hide": 0,
+          "includeAll": false,
+          "index": -1,
+          "label": null,
+          "multi": false,
+          "name": "App_Latency",
+          "options": [
+            {
+              "$$hashKey": "object:595",
+              "selected": true,
+              "text": "back",
+              "value": "back"
+            },
+            {
+              "$$hashKey": "object:596",
+              "selected": false,
+              "text": "front",
+              "value": "front"
+            },
+            {
+              "$$hashKey": "object:597",
+              "selected": false,
+              "text": "get",
+              "value": "get"
+            },
+            {
+              "$$hashKey": "object:598",
+              "selected": false,
+              "text": "post",
+              "value": "post"
+            }
+          ],
+          "query": "label_values(request_latency_seconds_bucket, application)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "text": "/metrics",
+            "value": "/metrics"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(request_latency_seconds_bucket, endpoint)",
+          "hide": 0,
+          "includeAll": false,
+          "index": -1,
+          "label": null,
+          "multi": false,
+          "name": "Path_Latency",
+          "options": [
+            {
+              "$$hashKey": "object:693",
+              "selected": true,
+              "text": "/metrics",
+              "value": "/metrics"
+            },
+            {
+              "$$hashKey": "object:694",
+              "selected": false,
+              "text": "/TP/public/index.php",
+              "value": "/TP/public/index.php"
+            },
+            {
+              "$$hashKey": "object:695",
+              "selected": false,
+              "text": "/TP/index.php",
+              "value": "/TP/index.php"
+            },
+            {
+              "$$hashKey": "object:696",
+              "selected": false,
+              "text": "/thinkphp/html/public/index.php",
+              "value": "/thinkphp/html/public/index.php"
+            },
+            {
+              "$$hashKey": "object:697",
+              "selected": false,
+              "text": "/",
+              "value": "/"
+            },
+            {
+              "$$hashKey": "object:698",
+              "selected": false,
+              "text": "/list",
+              "value": "/list"
+            },
+            {
+              "$$hashKey": "object:699",
+              "selected": false,
+              "text": "/html/public/index.php",
+              "value": "/html/public/index.php"
+            },
+            {
+              "$$hashKey": "object:700",
+              "selected": false,
+              "text": "/users",
+              "value": "/users"
+            },
+            {
+              "$$hashKey": "object:701",
+              "selected": false,
+              "text": "/static/main.css",
+              "value": "/static/main.css"
+            },
+            {
+              "$$hashKey": "object:702",
+              "selected": false,
+              "text": "/favicon.ico",
+              "value": "/favicon.ico"
+            },
+            {
+              "$$hashKey": "object:703",
+              "selected": false,
+              "text": "/home",
+              "value": "/home"
+            },
+            {
+              "$$hashKey": "object:704",
+              "selected": false,
+              "text": "/employee",
+              "value": "/employee"
+            },
+            {
+              "$$hashKey": "object:705",
+              "selected": false,
+              "text": "/add",
+              "value": "/add"
+            },
+            {
+              "$$hashKey": "object:706",
+              "selected": false,
+              "text": "/a",
+              "value": "/a"
+            },
+            {
+              "$$hashKey": "object:707",
+              "selected": false,
+              "text": "/ip.ws.126.net:443",
+              "value": "/ip.ws.126.net:443"
+            }
+          ],
+          "query": "label_values(request_latency_seconds_bucket, endpoint)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        }
+      ]
+    },
+    "time": {
+      "from": "now-3h",
+      "to": "now-1m"
+    },
+    "timepicker": {
+      "hidden": false,
+      "nowDelay": "1m",
+      "refresh_intervals": [
+        "5s"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Demo-Dashboard",
+    "uid": "VuVud1qWz",
+    "variables": {
+      "list": []
+    },
+    "version": 1
+  }
