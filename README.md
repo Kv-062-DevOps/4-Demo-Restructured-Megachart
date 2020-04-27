@@ -1,2 +1,3 @@
-# Canary-deployment
-Canary deployment, Istio, Ingress
+# 4-demo
+Charts,Deployments,ELK
+
