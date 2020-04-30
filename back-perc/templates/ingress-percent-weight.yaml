@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/service-weights: |
+      {{ include "back.fullname" . }}-srv: 50%
+      {{ include "back.fullname" . }}-srv-copy: 50%
+  name: {{ include "back.fullname" . }}-ingress
+  namespace: {{ include "back.fullname" . }}
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: {{ include "back.fullname" . }}-srv
+          servicePort: {{ .Values.port }}
+        path: /
+      - backend:
+          serviceName: {{ include "back.fullname" . }}-srv-copy
+          servicePort: {{ .Values.port }}
+        path: /

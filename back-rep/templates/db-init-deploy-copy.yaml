@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "back.fullname" . }}
+  name: {{ include "back.fullname" . }}-copy
   namespace: {{ include "back.fullname" . }}
 spec:
   selector:
@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "back.selectorLabels" . | nindent 8 }}
+              {{- include "back.selectorLabels" . | nindent 8 }}
     spec:
       imagePullSecrets:
       - name: {{ .Values.secretFile }}

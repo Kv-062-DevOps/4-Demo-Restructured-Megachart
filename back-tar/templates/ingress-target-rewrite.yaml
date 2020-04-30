@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/rewrite-target: /
+  name: {{ include "back.fullname" . }}-ingress
+  namespace: {{ include "back.fullname" . }}
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: {{ include "back.fullname" . }}-srv
+          servicePort: {{ .Values.port }}
+        path: /v1
+      - backend:
+          serviceName: {{ include "back.fullname" . }}-srv-copy
+          servicePort: {{ .Values.port }}
+        path: /v2
