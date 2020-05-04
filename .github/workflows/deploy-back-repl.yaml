@@ -18,7 +18,7 @@ jobs:
           echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./back-rep/Chart.yaml &&
           cat ./back-rep/Chart.yaml
       - name: Deploy
-        uses: WyriHaximus/github-action-helm3@v1
+        uses: WyriHaximus/github-action-helm3@master
         with:
           exec: helm install back-2 ./back-rep/ --set=app.name=APP_NAME --values=./.helm/app/values.yaml --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2"
           kubeconfig: '${{ secrets.KKUBECONFIG_vlad }}'
