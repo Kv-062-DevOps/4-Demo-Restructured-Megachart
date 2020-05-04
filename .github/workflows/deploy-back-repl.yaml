@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Prep helm chart
         run: |
-          mv ./back-perc/Chart.yaml ./back-rep/Chart.old.yaml &&
-          cat ./back-perc/Chart.old.yaml | grep -v appVersion > ./back-perc/Chart.yaml &&
+          mv ./back-rep/Chart.yaml ./back-rep/Chart.old.yaml &&
+          cat ./back-rep/Chart.old.yaml | grep -v appVersion > ./back-perc/Chart.yaml &&
           echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./back-perc/Chart.yaml &&
           cat ./back-perc/Chart.yaml
       - name: Deploy
