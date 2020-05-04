@@ -17,11 +17,18 @@ jobs:
           cat ./back-rep/Chart.old.yaml | grep -v appVersion > ./back-perc/Chart.yaml &&
           echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./back-perc/Chart.yaml &&
           cat ./back-perc/Chart.yaml
+      
+      - name: Uninstall
+        uses: WyriHaximus/github-action-helm3@master
+        with:
+          exec: helm uninstall back-2 ./back-rep/ --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2" || echo "back-2 Doesn't exist"
+          kubeconfig: '${{ secrets.KUBECONFIG_vlad }}'    
+          
       - name: Deploy
         uses: WyriHaximus/github-action-helm3@master
         with:
-          exec: helm upgrade back-2 ./back-perc/ --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2"
-          kubeconfig: '${{ secrets.KUBECONFIG_vlad }}'
+          exec: helm install back-2 ./back-perc/ --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2" || helm upgrade back-2 ./back-perc/ --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2"
+          kubeconfig: '${{ secrets.KUBECONFIG_vlad }}' 
 
 
 
