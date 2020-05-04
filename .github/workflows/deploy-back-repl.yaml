@@ -13,16 +13,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Prep helm chart
         run: |
-          mv ./back-rep/Chart.yaml ./back-rep/Chart.old.yaml &&
-          cat ./back-rep/Chart.old.yaml | grep -v appVersion > ./back-perc/Chart.yaml &&
+          mv ./back-perc/Chart.yaml ./back-perc/Chart.old.yaml &&
+          cat ./back-perc/Chart.old.yaml | grep -v appVersion > ./back-perc/Chart.yaml &&
           echo -e "\r\nappVersion: v${GITHUB_REF##*/}\r\n" >> ./back-perc/Chart.yaml &&
-          cat ./back-perc/Chart.yaml
-      
-      - name: Uninstall
-        uses: WyriHaximus/github-action-helm3@master
-        with:
-          exec: helm uninstall back-2 ./back-rep/ --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2" || echo "back-2 Doesn't exist"
-          kubeconfig: '${{ secrets.KUBECONFIG_vlad }}'    
+          cat ./back-perc/Chart.yaml   
           
       - name: Deploy
         uses: WyriHaximus/github-action-helm3@master
