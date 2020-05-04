@@ -21,7 +21,7 @@ jobs:
         uses: WyriHaximus/github-action-helm3@master
         with:
           exec: helm install back-2 ./back-rep/ --set access_key="${{ secrets.db_access_key }}" --set secret_key="${{ secrets.db_secret_key }}" --set region="us-west-2"
-          kubeconfig: '${{ secrets.KKUBECONFIG_vlad }}'
+          kubeconfig: '${{ secrets.KUBECONFIG_vlad }}'
 
 
 
