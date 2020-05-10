@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "front.fullname" . }}
-  labels: {{- include "front.labels" . | nindent 4 }}
+  labels:
+    {{- include "front.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -16,15 +17,11 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-              protocol: TCP
-              name: http
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: "URL_GET"
-              value: "{{ .Release.Name }}-{{ .Values.URL_GET }}"
+              value: {{ .Values.URL_GET }}
             - name: "URL_POST"
-              value: "{{ .Release.Name }}-{{ .Values.URL_POST }}"
+              value: {{ .Values.URL_POST }}
       imagePullSecrets:
-      - name: {{ .Values.image.imagePullSecrets }}
+      - name: awsecr-cred
