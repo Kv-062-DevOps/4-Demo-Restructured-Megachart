@@ -56,5 +56,5 @@ dependencies:
       - elk
   - name: traefik
     version: "1.86.*"
-    repository: "@stable"
+    repository: "https://kubernetes-charts.storage.googleapis.com/"
     condition: traefik.enabled
