@@ -1,0 +1,150 @@
+# Default values for dep-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+elasticsearch:
+  enabled: false
+  replicas: 1
+  minimumMasterNodes: 1
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "1512Mi"
+    limits:
+      cpu: "300m"
+      memory: "1512Mi"
+  persistence:
+    enabled: false
+  readinessProbe:
+    failureThreshold: 10
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    successThreshold: 1
+    timeoutSeconds: 30
+
+logstash:
+  fullnameOverride: "dep-logstash"
+  service:
+   annotations: {}
+   type: ClusterIP
+   ports:
+     - name: beats
+       port: 5044
+       protocol: TCP
+       targetPort: 5044
+     - name: http
+       port: 8080
+       protocol: TCP
+       targetPort: 8080
+  enabled: false
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+  logstashConfig:
+    logstash.yml: |
+      http.host: 0.0.0.0
+      xpack.monitoring.enabled: false
+
+  logstashPipeline:
+    # uptime.conf: |
+    #   input { exec { command => "uptime" interval => 30 } }
+    #   output { elasticsearch { hosts => ["http://elasticsearch-master:9200"] index => "logstash"  } }
+    filebeat.conf: |
+      input { beats { port => "5044"}}
+      filter {
+        grok {
+          match => { "message" => "%{IPORHOST:traefik.access.remote_ip} - - \[%{HTTPDATE:traefik.access.time}\] \"%{WORD:traefik.access.method} %{DATA:traefik.access.url} HTTP/%{NUMBER:traefik.access.http_version}\" (?:-|%{NUMBER:traefik.access.response_code:int}) (?:-|%{NUMBER:traefik.access.body_sent.bytes:int}) (?:-|\"-\"|\"%{DATA:traefik.access.referrer}\") (?:-|\"-\"|\"%{DATA:traefik.access.agent}\") (?:-|%{NUMBER:traefik.access.request_count:int}) (?:-|\"%{DATA:traefik.access.frontend_name}\") (?:-|\"%{DATA:traefik.access.backend_url}\") %{NUMBER:traefik.access.duration:int}ms" }
+        }
+        geoip {
+          source => "traefik.access.remote_ip"
+        }
+      }
+      output { elasticsearch { hosts => ["http://elasticsearch-master:9200"] } }
+
+kibana:
+  enabled: false
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "1G"
+    limits:
+      cpu: "300m"
+      memory: "1G"
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 120
+    periodSeconds: 10
+    successThreshold: 3
+    timeoutSeconds: 5
+
+filebeat:
+  enabled: false
+  filebeatConfig:
+    filebeat.yml: |
+      filebeat.inputs:
+      - type: container
+        paths:
+          - "/var/lib/docker/containers/*/*.log"
+        processors:
+        - add_kubernetes_metadata: ~
+        - drop_event:
+            when:
+              not:
+                or:
+                  - equals:
+                      kubernetes.container.name: "get"
+                  - equals:
+                      kubernetes.container.name: "post"
+                  - equals:
+                      kubernetes.container.name: "front"
+                  - equals:
+                      kubernetes.container.name: "back"
+                  - regexp:
+                      kubernetes.container.name: "^traefik.*"
+      output.logstash:
+        host: '${NODE_NAME}'
+        hosts: '${LOGSTASH_HOST:dep-logstash}'
+
+traefik:
+  enabled: true
+  ssl:
+    enabled: true
+    generateTLS: true
+  acme:
+    enabled: true
+    email: example@example.com
+    staging: false
+    logging: true
+    domains:
+      enabled: true
+    # List of sets of main and (optional) SANs to generate for
+    # for wildcard certificates see https://docs.traefik.io/configuration/acme/#wildcard-domains
+      domainsList:
+        - main: ""
+        - sans:
+          - ""
+    challengeType: dns-01
+    dnsProvider:
+      name: route53
+      route53:
+        AWS_REGION: "" #
+        AWS_ACCESS_KEY_ID: "" #
+        AWS_SECRET_ACCESS_KEY: "" #
+  dashboard:
+    enabled: true
+    domain:
+    serviceType: ClusterIP
+  accessLogs:
+    enabled: true
+    format: common  # choices are: common, json
+    ## for JSON logging, finer-grained control over what is logged. Fields can be
+    ## retained or dropped, and request headers can be retained, dropped or redacted
+    fields:
+      # choices are keep, drop
+      defaultMode: keep
+    #  names: {}
+    #    # ClientUsername: drop
+      headers:
+    #    # choices are keep, drop, redact
+        defaultMode: keep
