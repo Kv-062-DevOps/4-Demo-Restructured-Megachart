@@ -1,9 +1,87 @@
-# Default values for dep-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+tags:
+  monitoring: false
+  iam: false
+  elk: false
+##### Prometheus #####
+prometheus:
 
-elasticsearch:
   enabled: false
+
+  alertmanager:
+    enabled: false
+    persistentVolume:
+      enabled: false
+
+  server:
+    global:
+      scrape_interval: 30s
+      scrape_timeout: 30s
+      evaluation_interval: 1m
+    persistentVolume:
+      enabled: false
+
+  pushgateway:
+    enabled: false
+    persistentVolume:
+      enabled: false
+
+  extraScrapeConfigs:
+
+##### Grafana #####
+grafana:
+
+  enabled: false
+
+  persistence:
+      enabled: false
+
+  adminUser: admin
+  adminPassdword:
+
+  datasources:
+      datasources.yaml:
+          apiVersion: 1
+          datasources:
+          - name: Prometheus
+            type: prometheus
+            url: "http://{{ .Release.Name }}-prometheus-server"
+            access: proxy
+            isDefault: true
+
+  dashboardProviders:
+      dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+          - name: 'default'
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+    
+  dashboards:
+    default:
+      Demo-Dashboard:
+        json:
+
+#### KIAM #####
+kiam:
+
+  enabled: false
+
+##### cert-manager #####
+cert-manager:
+
+  enabled: false
+
+  installCRDs: true
+##### ElasticSearch #####
+elasticsearch:
+
+  enabled: false
+
   replicas: 1
   minimumMasterNodes: 1
   resources:
@@ -22,7 +100,11 @@ elasticsearch:
     successThreshold: 1
     timeoutSeconds: 30
 
+##### logstash #####
 logstash:
+
+  enabled: false
+
   fullnameOverride: "dep-logstash"
   service:
    annotations: {}
@@ -45,7 +127,6 @@ logstash:
     logstash.yml: |
       http.host: 0.0.0.0
       xpack.monitoring.enabled: false
-
   logstashPipeline:
     # uptime.conf: |
     #   input { exec { command => "uptime" interval => 30 } }
@@ -62,8 +143,11 @@ logstash:
       }
       output { elasticsearch { hosts => ["http://elasticsearch-master:9200"] } }
 
+##### Kibana #####
 kibana:
+
   enabled: false
+
   resources:
     requests:
       cpu: "300m"
@@ -78,8 +162,11 @@ kibana:
     successThreshold: 3
     timeoutSeconds: 5
 
+##### filebeat #####
 filebeat:
+
   enabled: false
+
   filebeatConfig:
     filebeat.yml: |
       filebeat.inputs:
@@ -106,8 +193,11 @@ filebeat:
         host: '${NODE_NAME}'
         hosts: '${LOGSTASH_HOST:dep-logstash}'
 
+##### Traefik ##### 
 traefik:
+
   enabled: true
+
   ssl:
     enabled: true
     generateTLS: true
