@@ -69,6 +69,7 @@ grafana:
 cert-manager:
 
   installCRDs: true
+
 ##### ElasticSearch #####
 elasticsearch:
 
@@ -179,6 +180,8 @@ filebeat:
 
 ##### Traefik ##### 
 traefik:
+
+  enabled: false
 
   ssl:
     enabled: true
