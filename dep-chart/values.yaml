@@ -63,8 +63,7 @@ grafana:
         json:
 
 #### KIAM #####
-kiam:
-
+# kiam:
 
 ##### cert-manager #####
 cert-manager:
@@ -180,8 +179,6 @@ filebeat:
 
 ##### Traefik ##### 
 traefik:
-
-  enabled: true
 
   ssl:
     enabled: true
