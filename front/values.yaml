@@ -1,0 +1,12 @@
+image:
+  repository: 074368059797.dkr.ecr.eu-central-1.amazonaws.com/front
+  tag: latest
+  imagePullSecrets: awsecr-cred
+
+service:
+  type: LoadBalancer
+  port: 8080
+  targetPort: 8080
+
+URL_GET: get-srv:8081
+URL_POST: post-srv:8082/a
