@@ -62,8 +62,54 @@ grafana:
       Demo-Dashboard:
         json:
 
-#### KIAM #####
-# kiam:
+##### KIAM #####
+kiam:
+
+  agent:
+
+    host:
+      iptables: true
+      iptablesRemoveOnShutdown: false
+      port: 8181
+      interface: cbr0
+
+    nodeSelector:
+      kubernetes.io/role: node
+
+    extraEnv:
+    - name: HOST_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+
+    extraHostPathMounts:
+      - name: ssl-certs
+        mountPath: /etc/ssl/certs
+        hostPath: /usr/share/ca-certificates
+        readOnly: true
+
+    tlsSecret: kiam-agent-tls
+
+
+  server:
+
+    nodeSelector:
+      kubernetes.io/role: master
+
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+
+    probes:
+      serverAddress: localhost
+
+    tlsSecret: kiam-server-tls
+
+    roleBaseArn: null
+
+    assumeRoleArn: kiam_server
+
+    sslCertHostPath: /usr/share/ca-certificates
 
 ##### cert-manager #####
 cert-manager:
