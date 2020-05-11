@@ -4,3 +4,8 @@ metadata:
   name: default
   annotations:
     iam.amazonaws.com/permitted: ".*"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
