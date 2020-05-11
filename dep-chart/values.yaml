@@ -1,6 +1,5 @@
 tags:
   monitoring: false
-  iam: false
   elk: false
 ##### Prometheus #####
 prometheus:
@@ -65,55 +64,52 @@ grafana:
 ##### KIAM #####
 kiam:
 
-  agent:
+  enabled: false
 
+  agent:
     host:
       iptables: true
       iptablesRemoveOnShutdown: false
       port: 8181
       interface: cbr0
-
     nodeSelector:
       kubernetes.io/role: node
-
     extraEnv:
-    - name: HOST_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-
+      - name: HOST_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
     extraHostPathMounts:
       - name: ssl-certs
         mountPath: /etc/ssl/certs
         hostPath: /usr/share/ca-certificates
         readOnly: true
-
     tlsSecret: kiam-agent-tls
-
+    tlsCerts:
+      certFileName: tls.crt
+      keyFileName: tls.key
+      caFileName: ca.crt
 
   server:
-
     nodeSelector:
       kubernetes.io/role: master
-
     tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
-
     probes:
       serverAddress: localhost
-
     tlsSecret: kiam-server-tls
-
-    roleBaseArn: null
-
+    tlsCerts:
+      certFileName: tls.crt
+      keyFileName: tls.key
+      caFileName: ca.crt
     assumeRoleArn: kiam_server
-
     sslCertHostPath: /usr/share/ca-certificates
 
 ##### cert-manager #####
 cert-manager:
 
+  enabled: false
   installCRDs: true
 
 ##### ElasticSearch #####

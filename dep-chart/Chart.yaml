@@ -2,8 +2,8 @@ apiVersion: v2
 name: dep-chart
 description: A Helm chart for Kubernetes
 type: application
-version: 0.2.0
-appVersion: 1.16.0
+version: 1.0.0
+appVersion: 1.0.0
 
 dependencies:
   - name: prometheus
@@ -22,14 +22,10 @@ dependencies:
     version: "5.7.*"
     repository: https://uswitch.github.io/kiam-helm-charts/charts/
     condition: kiam.enabled
-    tags: 
-      - iam
   - name: cert-manager
     version: "0.15.*"
     repository: https://charts.jetstack.io/
     condition: cert-manager.enabled
-    tags: 
-      - iam
   - name: elasticsearch
     version: "7.6.*"
     repository: "https://helm.elastic.co"
