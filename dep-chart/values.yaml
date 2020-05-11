@@ -111,6 +111,8 @@ traefik:
   ssl:
     enabled: true
     generateTLS: true
+    defaultKey: ""
+    defaultCert: ""
   acme:
     enabled: true
     email: example@example.com
@@ -133,7 +135,7 @@ traefik:
         AWS_SECRET_ACCESS_KEY: "" #
   dashboard:
     enabled: true
-    domain:
+    domain: ""
     serviceType: ClusterIP
   accessLogs:
     enabled: true
@@ -148,3 +150,5 @@ traefik:
       headers:
     #    # choices are keep, drop, redact
         defaultMode: keep
+  rbac:
+    enabled: true
