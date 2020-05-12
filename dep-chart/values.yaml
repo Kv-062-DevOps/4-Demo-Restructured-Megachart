@@ -55,7 +55,7 @@ grafana:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
-    
+
   dashboards:
     default:
       Demo-Dashboard:
@@ -149,7 +149,6 @@ logstash:
        port: 8080
        protocol: TCP
        targetPort: 8080
-  enabled: false
   resources:
     requests:
       cpu: "100m"
@@ -220,7 +219,7 @@ filebeat:
         host: '${NODE_NAME}'
         hosts: '${LOGSTASH_HOST:dep-logstash}'
 
-##### Traefik ##### 
+##### Traefik #####
 traefik:
 
   enabled: false
