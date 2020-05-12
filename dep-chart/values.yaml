@@ -1,6 +1,12 @@
 tags:
   monitoring: false
   elk: false
+
+global:
+  kiam_agent_ecr: kiam_agent_ecr
+  kiam_agent_dynamodb: kiam_agent_dynamodb
+  kiam_agent_route53: kiam_agent_route53
+
 ##### Prometheus #####
 prometheus:
 
