@@ -627,8 +627,8 @@ traefik:
   # labels to add to the deployment
   # labels:
   #   key: value
-  # annotations:
-  #   key: value
+    annotations:
+      kubernetes.io/role: kiam_agent_route53
   # labels to add to the pod container metadata
   # podLabels:
   #   key: value
