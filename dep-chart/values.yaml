@@ -509,9 +509,9 @@ traefik:
     dnsProvider:
       name: route53
       route53:
-        AWS_ACCESS_KEY_ID: "AKIARCUFORGKZZ3GMLLH" #
+        AWS_ACCESS_KEY_ID: "" #
         AWS_REGION: "eu-central-1" #
-        AWS_SECRET_ACCESS_KEY: "4D/pkvWWy4egwLYYQKwnCRE9PhvYG4C/y94rlTtL" #
+        AWS_SECRET_ACCESS_KEY: "" #
   ## Save ACME certs to a persistent volume.
   ## WARNING: If you do not do this and you did not have configured
   ## a kvprovider, you will re-request certs every time a pod (re-)starts
